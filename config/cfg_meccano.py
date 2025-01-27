@@ -116,3 +116,7 @@ ema_epoch = 0
 use_detached_boxes_dec_out = False
 use_coco_eval = False # Cambiando de True a False
 dn_scalar = 100
+
+
+label_list = ["booklet", "gray_angled_perforated_bar", "partial_model", "white_angled_perforated_bar", "wrench", "screwdriver", "gray_perforated_bar", "wheels_axle", "red_angled_perforated_bar", "red_perforated_bar", "rod", "handlebar", "screw", "tire", "rim", "washer", "red_perforated_junction_bar", "red_4_perforated_junction_bar", "bolt", "roller"]
+
