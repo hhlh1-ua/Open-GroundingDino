@@ -4,7 +4,7 @@ DATASETS=$3
 OUTPUT_DIR=$4
 
 
-python  --nproc_per_node=${GPU_NUM} main.py \
+python3  --nproc_per_node=${GPU_NUM} main.py \
         --output_dir ${OUTPUT_DIR} \
         --eval \
         -config_file ${CFG} \
