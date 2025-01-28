@@ -9,5 +9,5 @@ python  --nproc_per_node=${GPU_NUM} main.py \
         --eval \
         -config_file ${CFG} \
         --datasets ${DATASETS}  \
-        --pretrain_model_path /path/to/groundingdino_swint_ogc.pth \
-        --options text_encoder_type=/path/to/bert-base-uncased
+        --pretrain_model_path /workspace/GroundingDINO/modelos/groundingdino_swint_ogc.pth \
+        --options text_encoder_type=/workspace/GroundingDINO/modelos/BERT
