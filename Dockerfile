@@ -9,5 +9,5 @@ COPY . .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # COPY models/GroundingDINO/ops/ /models/GroundingDINO/ops/
-RUN python3  models/GroundingDINO/ops/setup.py build install
-# RUN python3 test.py
+# RUN python3  models/GroundingDINO/ops/setup.py build install
+CMD ["python3", "models/GroundingDINO/ops/setup.py", "build", "install"]
