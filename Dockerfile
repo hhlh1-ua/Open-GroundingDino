@@ -1,3 +1,15 @@
+FROM nvidia/cuda:12.1.0-cudnn8-devel-ubuntu20.04
+
+# Base installation
+ARG DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && apt-get install -y \
+  software-properties-common \
+  wget \
+  ffmpeg \
+  libsm6 \
+  libxext6 \
+  joe
+
 WORKDIR /workspace
 ENV CUDA_HOME=/usr/local/cuda
 
@@ -13,3 +25,6 @@ RUN add-apt-repository ppa:deadsnakes/ppa && \
 # Install Open-GDINO dependencies
 COPY . /workspace
 RUN pip install -r requirements.txt
+# RUN cd models/GroundingDINO/ops && python setup.py build install
+# RUN cd models/GroundingDINO/ops && python test.py
+# RUN cd GroundingDINO && pip install -e .
