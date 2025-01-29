@@ -1,5 +1,5 @@
 GPU_NUM=1
-CGF="/workspace/GroundingDINO/Open-GroundingDino/config/cfg_meccano.py"
+CFG="/workspace/GroundingDINO/Open-GroundingDino/config/cfg_meccano.py"
 DATASETS="/workspace/GroundingDINO/Open-GroundingDino/config/dataset_test_hugo.json"
 OUTPUT_DIR="/workspace/GroundingDINO/results"
 NNODES=${NNODES:-1}
