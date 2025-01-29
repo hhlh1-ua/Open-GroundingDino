@@ -6,11 +6,7 @@ RUN python3 -m pip install --upgrade pip
 
 
 ENV CUDA_HOME=/usr/local/cuda
-
-COPY requirements.txt requirements.txt
-
+COPY . .
 RUN pip install --no-cache-dir -r requirements.txt
+RUN python3  models/GroundingDINO/ops/setup.py build install
 
-WORKDIR models/GroundingDINO/ops/
-RUN python3 setup.py build install
-RUN python3 test.py
