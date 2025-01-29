@@ -8,7 +8,6 @@ COPY requirements.txt requirements.txt
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-WORKDIR models/GroundingDINO/ops/
-COPY setup.py setup.py
+COPY models/GroundingDINO/ops/ /models/GroundingDINO/ops/
 RUN python3 setup.py build install
 # RUN python3 test.py
