@@ -81,9 +81,11 @@ def createCOCO(outfile,start_range, fin_range):
                     annotation = {
                         "id": annotation_id_counter,
                         "image_id": images_dict[image_name],
+                        "segmentation": [],
+                        "area": width * height,
                         "category_id": category_names[category_name],
                         "bbox": bbox,
-                        "area": width * height,
+                        
                         "iscrowd": 0
                     }
                     annotations.append(annotation)
