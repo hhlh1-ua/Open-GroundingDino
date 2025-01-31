@@ -85,8 +85,8 @@ def createCOCO(outfile,start_range, fin_range):
                         "area": width * height,
                         "category_id": category_names[category_name],
                         "bbox": bbox,
-                        
-                        "iscrowd": 0
+                        "iscrowd": 0,
+                        "ignore": 0
                     }
                     annotations.append(annotation)
                     annotation_id_counter += 1
