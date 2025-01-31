@@ -115,10 +115,12 @@ use_detached_boxes_dec_out = False
 use_coco_eval = False
 dn_scalar = 100
 label_list = [
-    'booklet', 'gray_angled_perforated_bar', 'partial_model',
-    'white_angled_perforated_bar', 'wrench', 'screwdriver',
-    'gray_perforated_bar', 'wheels_axle', 'red_angled_perforated_bar',
-    'red_perforated_bar', 'rod', 'handlebar', 'screw', 'tire', 'rim', 'washer',
-    'red_perforated_junction_bar', 'red_4_perforated_junction_bar', 'bolt',
-    'roller'
+    'laptop', 'bottle', 'mug/cup', 'door', 'trash_can', 'shoes', 'fridge',
+    'milk/juice', 'microwave', 'soap_liquid', 'tap', 'pitcher',
+    'knife/spoon/fork', 'dish', 'tea_bag', 'large_container', 'cell_phone',
+    'food/snack', 'person', 'towel', 'tooth_brush', 'tooth_paste', 'tv',
+    'tv_remote', 'pan', 'kettle', 'oven/stove', 'vacuum', 'book', 'cell',
+    'basket', 'cloth', 'mop', 'container', 'detergent', 'pills', 'thermostat',
+    'bed', 'washer/dryer', 'perfume', 'comb', 'dent_floss', 'electric_keys',
+    'blanket'
 ]

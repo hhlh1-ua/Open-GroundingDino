@@ -1,9 +1,9 @@
 {
-  "config_file": "/workspace/GroundingDINO/Open-GroundingDino/config/cfg_meccano.py",
+  "config_file": "/workspace/GroundingDINO/Open-GroundingDino/config/cfg_ADL_test.py",
   "options": {
     "text_encoder_type": "/workspace/GroundingDINO/modelos/BERT"
   },
-  "datasets": "/workspace/GroundingDINO/Open-GroundingDino/config/dataset_test_hugo.json",
+  "datasets": "/workspace/GroundingDINO/Open-GroundingDino/config/dataset_test_ADL.json",
   "remove_difficult": false,
   "fix_size": false,
   "output_dir": "/workspace/GroundingDINO/Open-GroundingDino/resultados/pre_finetunning",
