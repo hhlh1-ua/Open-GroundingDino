@@ -7,14 +7,14 @@ WIDTH = 1280
 
 
 
-def chnage_cfg(test,categories):
-    if(test):
-        file="cfg_ADL_test.py"
-    else:
-        file="cfg_ADL_train.py"
-    path=os.path.join('config',file)
-    label_list_content = f'label_list = {json.dumps(list(categories.keys()))}\n'
-    print(label_list_content)
+# def chnage_cfg(test,categories):
+#     if(test):
+#         file="cfg_ADL_test.py"
+#     else:
+#         file="cfg_ADL_train.py"
+#     path=os.path.join('config',file)
+#     label_list_content = f'label_list = {json.dumps(list(categories.keys()))}\n'
+#     print(label_list_content)
 
 
 def createCOCO(outfile,start_range, fin_range):
@@ -103,23 +103,18 @@ def createCOCO(outfile,start_range, fin_range):
     outdir= os.path.join('annotations','coco_format',outfile)
     with open(outdir, 'w') as out_file:
         json.dump(coco, out_file, indent=4)
-    return category_names
 
 
 def main(args):
     if(args.test):
-        categories=createCOCO(outfile='annotations_test.json',start_range=11,fin_range=17)
-        chnage_cfg(True,categories)
+        createCOCO(outfile='annotations_test.json',start_range=11,fin_range=17)
     if(args.validation):
         createCOCO(outfile='annotations_val.json',start_range=17,fin_range=21)
     if(args.train):
-       categories=createCOCO(outfile='annotations_train.json',start_range=1,fin_range=11)
-       chnage_cfg(False,categories)
+       createCOCO(outfile='annotations_train.json',start_range=1,fin_range=11)
     if(args.all):
-        categories=createCOCO(outfile='annotations_train.json',start_range=1,fin_range=11)
-        chnage_cfg(False,categories)
-        categories=createCOCO(outfile='annotations_test.json',start_range=11,fin_range=17)
-        chnage_cfg(True,categories)
+        createCOCO(outfile='annotations_train.json',start_range=1,fin_range=11)
+        createCOCO(outfile='annotations_test.json',start_range=11,fin_range=17)
         createCOCO(outfile='annotations_val.json',start_range=17,fin_range=21)
 
 
