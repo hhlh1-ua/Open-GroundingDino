@@ -85,7 +85,8 @@ def createCOCO():
         "annotations": annotations,
         "categories": categories
     }
-    outdir='prueba.json'
+    outfile='annotations_test.json'
+    outdir= os.path.join('annotations','coco_format',outfile)
     with open(outdir, 'w') as out_file:
         json.dump(coco, out_file, indent=4)
     #print(errores)
