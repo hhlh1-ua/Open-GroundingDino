@@ -1,6 +1,6 @@
 GPU_NUM=1
 CFG="/workspace/GroundingDINO/Open-GroundingDino/config/cfg_meccano.py"
-DATASETS="/workspace/GroundingDINO/Open-GroundingDino/config/dataset_test_hugo.json"
+DATASETS="/workspace/GroundingDINO/Open-GroundingDino/config/dataset_test_MECCANO.json"
 OUTPUT_DIR="/workspace/GroundingDINO/Open-GroundingDino/resultados/pre_finetunning"
 NNODES=${NNODES:-1}
 NODE_RANK=${NODE_RANK:-0}
