@@ -1,5 +1,7 @@
 import os
 import json, glob
+import argparse
+
 HEIGTH = 960
 WIDTH = 1280
 
@@ -13,15 +15,16 @@ image_id_counter = 0
 category_id_counter = 1
 annotation_id_counter = 1
 
-def createCOCO():
+def createCOCO(outfile,start_range, fin_range):
     global category_id_counter, image_id_counter, annotation_id_counter
     errores=[]
     
-    for i in range(1, 2):
+    for i in range(start_range, fin_range):
         filename = f'object_annot_P_0{i}.txt' if i < 10 else f'object_annot_P_{i}.txt'
         filedir = os.path.join('annotations', 'object_annotation', filename)
         annotated_frames=f'object_annot_P_0{i}_annotated_frames.txt' if i < 10 else f'object_annot_P_{i}_annotated_frames.txt'
         filedir_annotated_frames = os.path.join('annotations', 'object_annotation', annotated_frames)
+        prefix=f'P_0{i}'if i < 10 else'P_{i}'
         with open(filedir_annotated_frames, "r") as file:
             for line in file:
                 line_vals = line.split()
@@ -34,7 +37,7 @@ def createCOCO():
                         "id": image_id_counter,
                         "width": WIDTH,
                         "height": HEIGTH,
-                        "file_name": image_name+'.jpg'
+                        "file_name": os.path.join(prefix,image_name+'.jpg')
                     })
                     image_id_counter += 1
 
@@ -85,15 +88,32 @@ def createCOCO():
         "annotations": annotations,
         "categories": categories
     }
-    outfile='annotations_test.json'
+    
     outdir= os.path.join('annotations','coco_format',outfile)
     with open(outdir, 'w') as out_file:
         json.dump(coco, out_file, indent=4)
     #print(errores)
 
 
-def main(args=None):
-    createCOCO()
+def main(args):
+    if(args.test):
+        createCOCO(outfile='annotations_test.json',start_range=11,fin_range=17)
+    if(args.validation):
+        createCOCO(outfile='annotations_val.json',start_range=17,fin_range=21)
+    if(args.train):
+       createCOCO(outfile='annotations_train.json',start_range=1,fin_range=11)
+    if(args.all):
+        createCOCO(outfile='annotations_train.json',start_range=1,fin_range=11)
+        createCOCO(outfile='annotations_test.json',start_range=11,fin_range=17)
+        createCOCO(outfile='annotations_val.json',start_range=17,fin_range=21)
+
+
+
 
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser(description='Decide what type of annotations create')
+    parser.add_argument('-tst', '--test', help='Use to create test annotations', action='store_true')
+    parser.add_argument('-trn', '--train', help='Use to create train annotations', action='store_true')
+    parser.add_argument('-v', '--validation', help='Use to create validation annotations', action='store_true')
+    parser.add_argument('-a', '--all', help='Use to create all annotations', action='store_true')
+    main(parser.parse_args())
