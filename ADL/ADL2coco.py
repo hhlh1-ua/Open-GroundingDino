@@ -79,10 +79,10 @@ def createCOCO(outfile,start_range, fin_range):
                         category_id_counter += 1
 
                     # Coordenadas de la caja delimitadora (bbox)
-                    x1 = float(line_vals[1]) / 2.0
-                    y1 = float(line_vals[2]) / 2.0
-                    x2 = float(line_vals[3]) / 2.0
-                    y2 = float(line_vals[4]) / 2.0
+                    x1 = int(line_vals[1])
+                    y1 = int(line_vals[2])
+                    x2 = int(line_vals[3])
+                    y2 = int(line_vals[4])
                     width = x2 - x1
                     height = y2 - y1
                     bbox = [x1, y1, width, height]
