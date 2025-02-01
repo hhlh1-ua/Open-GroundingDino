@@ -1,20 +1,30 @@
 import os
 import json, glob
 import argparse
+ORIGINAL_HEIGTH = 960
+ORIGINAL_WIDTH = 1280
+### EN EL SERVIDOR TIENEN LAS IMÁGENES CON LA MITAD DE TAMAÑO QUE LO QUE PONE EN EL PAPER
+HEIGTH = 480
+WIDTH = 640
 
-HEIGTH = 960
-WIDTH = 1280
 
 
+def create_label_map_extended(test, categories):
 
-# def chnage_cfg(test,categories):
-#     if(test):
-#         file="cfg_ADL_test.py"
-#     else:
-#         file="cfg_ADL_train.py"
-#     path=os.path.join('config',file)
-#     label_list_content = f'label_list = {json.dumps(list(categories.keys()))}\n'
-#     print(label_list_content)
+    if test:
+        filename = "label_map_extended_test.json"
+    else:
+        filename = "label_map_extended_train.json"
+    path = os.path.join('..','config', filename)
+
+    inverted = {value: key for key, value in categories.items()}
+    inverted_str = {str(key): inverted[key] for key in sorted(inverted.keys())}
+
+    with open(path, 'w') as f:
+        json.dump(inverted_str, f, indent=2)
+    
+ 
+    print(json.dumps(inverted_str, indent=2))
 
 
 def createCOCO(outfile,start_range, fin_range):
@@ -25,7 +35,7 @@ def createCOCO(outfile,start_range, fin_range):
     images_dict = {}  # Diccionario para asignar ID a imágenes
 
     image_id_counter = 0
-    category_id_counter = 1
+    category_id_counter = 0
     annotation_id_counter = 1
     errores=[]
     
@@ -69,10 +79,10 @@ def createCOCO(outfile,start_range, fin_range):
                         category_id_counter += 1
 
                     # Coordenadas de la caja delimitadora (bbox)
-                    x1 = int(line_vals[1])
-                    y1 = int(line_vals[2])
-                    x2 = int(line_vals[3])
-                    y2 = int(line_vals[4])
+                    x1 = float(line_vals[1]) / 2.0
+                    y1 = float(line_vals[2]) / 2.0
+                    x2 = float(line_vals[3]) / 2.0
+                    y2 = float(line_vals[4]) / 2.0
                     width = x2 - x1
                     height = y2 - y1
                     bbox = [x1, y1, width, height]
@@ -105,11 +115,13 @@ def createCOCO(outfile,start_range, fin_range):
     outdir= os.path.join('annotations','coco_format',outfile)
     with open(outdir, 'w') as out_file:
         json.dump(coco, out_file, indent=4)
+    return category_names
 
 
 def main(args):
     if(args.test):
-        createCOCO(outfile='annotations_test.json',start_range=11,fin_range=17)
+        categories=createCOCO(outfile='annotations_test.json',start_range=11,fin_range=17)
+        create_label_map_extended(True,categories)
     if(args.validation):
         createCOCO(outfile='annotations_val.json',start_range=17,fin_range=21)
     if(args.train):
