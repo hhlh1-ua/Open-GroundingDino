@@ -91,6 +91,7 @@ def createCOCO(outfile,start_range, fin_range):
                 line_vals = line.split()
                 category_name = line_vals[-1]  # Última palabra de la línea (categoría)
                 image_name = line_vals[5][2:]  # Nombre de la imagen
+                image_name=os.path.join(prefix,image_name+'.jpg')
                 if image_name in images_dict:
                     # Verificar si la categoría ya existe
                     if category_name not in category_names:
