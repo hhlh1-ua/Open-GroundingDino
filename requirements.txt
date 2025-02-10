@@ -14,3 +14,4 @@ supervision==0.6.0
 pycocotools
 pyyaml>3.10
 colorlog
+jsonlines
