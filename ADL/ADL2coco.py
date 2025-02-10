@@ -73,6 +73,7 @@ def createCOCO(outfile,start_range, fin_range):
             for line in file:
                 line_vals = line.split()
                 image_name = line_vals[0][2:]  # Nombre de la imagen
+                image_name=os.path.join(prefix,image_name+'.jpg')
 
                 # Verificar si la imagen ya existe
                 if image_name not in images_dict:
@@ -81,7 +82,7 @@ def createCOCO(outfile,start_range, fin_range):
                         "id": image_id_counter,
                         "width": WIDTH,
                         "height": HEIGTH,
-                        "file_name": os.path.join(prefix,image_name+'.jpg')
+                        "file_name": image_name
                     })
                     image_id_counter += 1
 
