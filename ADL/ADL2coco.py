@@ -1,6 +1,7 @@
 import os
 import json, glob
 import argparse
+import re
 ORIGINAL_HEIGTH = 960
 ORIGINAL_WIDTH = 1280
 ### EN EL SERVIDOR TIENEN LAS IMÁGENES CON LA MITAD DE TAMAÑO QUE LO QUE PONE EN EL PAPER
@@ -23,8 +24,30 @@ def create_label_map_extended(test, categories):
     with open(path, 'w') as f:
         json.dump(inverted_str, f, indent=2)
     
- 
-    print(json.dumps(inverted_str, indent=2))
+
+
+def update_coco2ovdgADL(categories):
+    coco2ovdg_ADL_file = os.path.join('..','tools','coco2odvg_ADL.py')
+    new_id_map = {value: value for value in categories.values()}  # Cada ID mapea a sí mismo
+    new_id_map = str(new_id_map)  # Convertir a cadena, si es necesario
+
+
+    inverted = {value: key for key, value in categories.items()}
+    inverted_str = {str(key): inverted[key] for key in sorted(inverted.keys())}
+    inverted_str = json.dumps(inverted_str, indent=4)  # Formatear como JSON con comillas dobles
+    # Leer el contenido del archivo
+    with open(coco2ovdg_ADL_file, 'r') as file:
+        content = file.read()
+
+    # Reemplazar id_map en el archivo
+    content = re.sub(r'id_map\s*=\s*\{[^\}]*\}', f'id_map = {new_id_map}', content)
+
+    # Reemplazar ori_map en el archivo
+    content = re.sub(r'ori_map\s*=\s*\{[^\}]*\}', f'ori_map = {inverted_str}', content)
+
+    # Escribir el contenido actualizado de vuelta al archivo
+    with open(coco2ovdg_ADL_file, 'w') as file:
+        file.write(content)
 
 
 def createCOCO(outfile,start_range, fin_range):
@@ -121,13 +144,14 @@ def createCOCO(outfile,start_range, fin_range):
 def main(args):
     if(args.test):
         categories=createCOCO(outfile='annotations_test.json',start_range=11,fin_range=17)
-        create_label_map_extended(True,categories)
+        #create_label_map_extended(True,categories)
     if(args.validation):
         createCOCO(outfile='annotations_val.json',start_range=17,fin_range=21)
     if(args.train):
        createCOCO(outfile='annotations_train.json',start_range=1,fin_range=11)
     if(args.all):
-        createCOCO(outfile='annotations_train.json',start_range=1,fin_range=11)
+        categories=createCOCO(outfile='annotations_train.json',start_range=1,fin_range=11)
+        update_coco2ovdgADL(categories)
         createCOCO(outfile='annotations_test.json',start_range=11,fin_range=17)
         createCOCO(outfile='annotations_val.json',start_range=17,fin_range=21)
 
