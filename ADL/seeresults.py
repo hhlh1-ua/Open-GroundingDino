@@ -12,7 +12,7 @@ with open('../config/label_map_extended_test.json', 'r') as file:
     label_map = json.load(file)
 
 # Cargar el objeto con las cajas detectadas
-model_path = '../resultados/pre_finetunning/Version_FineTunneada_en_COCO/results-0.pkl'
+model_path = '../resultados/pre_finetunning/Version_entrenada_con_1M/results-0.pkl'
 object = torch.load(model_path)
 
 # Iterar por cada bounding box
@@ -32,4 +32,4 @@ for bbox_data in object['res_info'][0]:
                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 1)
 
 # Guardar la imagen con las cajas
-cv2.imwrite('../resultados/version_GR_COCO_FineTunning.jpg', image)
+cv2.imwrite('../resultados/version_GR_1M_Pre_Trainned.jpg', image)
