@@ -144,15 +144,19 @@ def createCOCO(outfile,start_range, fin_range):
 def main(args):
     if(args.test):
         categories=createCOCO(outfile='annotations_test.json',start_range=11,fin_range=17)
-        #create_label_map_extended(True,categories)
+        #create_label_map_extended(test=True,categories=categories)
     if(args.validation):
         createCOCO(outfile='annotations_val.json',start_range=17,fin_range=21)
     if(args.train):
-       createCOCO(outfile='annotations_train.json',start_range=1,fin_range=11)
+       categories=createCOCO(outfile='annotations_train.json',start_range=1,fin_range=11)
+       update_coco2ovdgADL(categories)
+       create_label_map_extended(test=False,categories=categories)
     if(args.all):
         categories=createCOCO(outfile='annotations_train.json',start_range=1,fin_range=11)
         update_coco2ovdgADL(categories)
-        createCOCO(outfile='annotations_test.json',start_range=11,fin_range=17)
+        create_label_map_extended(test=False,categories=categories)
+        categories=createCOCO(outfile='annotations_test.json',start_range=11,fin_range=17)
+        create_label_map_extended(test=True,categories=categories)
         createCOCO(outfile='annotations_val.json',start_range=17,fin_range=21)
 
 
