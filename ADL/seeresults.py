@@ -32,4 +32,4 @@ for bbox_data in object['res_info'][0]:
                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 1)
 
 # Guardar la imagen con las cajas
-cv2.imwrite('../resultados/bbox.jpg', image)
+cv2.imwrite('../resultados/version_GR_oficial.jpg', image)
