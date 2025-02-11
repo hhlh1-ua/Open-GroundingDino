@@ -1,0 +1,32 @@
+{
+  "config_file": "/workspace/GroundingDINO/Open-GroundingDino/config/cfg_ADL.py",
+  "options": {
+    "text_encoder_type": "/workspace/GroundingDINO/modelos/BERT"
+  },
+  "datasets": "/workspace/GroundingDINO/Open-GroundingDino/config/dataset_test_ADL.json",
+  "remove_difficult": false,
+  "fix_size": false,
+  "output_dir": "/workspace/GroundingDINO/Open-GroundingDino/resultados/pre_finetunning/Version_Oficial",
+  "note": "",
+  "device": "cuda",
+  "seed": 42,
+  "resume": "",
+  "pretrain_model_path": "/workspace/GroundingDINO/modelos/groundingdino_swint_ogc.pth",
+  "finetune_ignore": null,
+  "start_epoch": 0,
+  "eval": true,
+  "num_workers": 8,
+  "test": false,
+  "debug": false,
+  "find_unused_params": false,
+  "save_results": true,
+  "save_log": false,
+  "world_size": 1,
+  "dist_url": "env://",
+  "rank": 0,
+  "local_rank": 0,
+  "amp": false,
+  "gpu": 0,
+  "distributed": true,
+  "dist_backend": "nccl"
+}

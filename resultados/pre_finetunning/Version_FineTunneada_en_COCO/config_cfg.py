@@ -48,7 +48,7 @@ sub_sentence_present = True
 max_labels = 50
 lr = 0.0001
 backbone_freeze_keywords = None
-freeze_keywords = ['bert']
+freeze_keywords = ['backbone.0', 'bert']
 lr_backbone = 1e-05
 lr_backbone_names = ['backbone.0', 'bert']
 lr_linear_proj_mult = 1e-05
@@ -115,12 +115,12 @@ use_detached_boxes_dec_out = False
 use_coco_eval = False
 dn_scalar = 100
 label_list = [
-    'laptop', 'bottle', 'mug/cup', 'door', 'trash_can', 'shoes', 'fridge',
-    'milk/juice', 'microwave', 'soap_liquid', 'tap', 'pitcher',
-    'knife/spoon/fork', 'dish', 'tea_bag', 'large_container', 'cell_phone',
-    'food/snack', 'person', 'towel', 'tooth_brush', 'tooth_paste', 'tv',
-    'tv_remote', 'pan', 'kettle', 'oven/stove', 'vacuum', 'book', 'cell',
-    'basket', 'cloth', 'mop', 'container', 'detergent', 'pills', 'thermostat',
-    'bed', 'washer/dryer', 'perfume', 'comb', 'dent_floss', 'electric_keys',
-    'blanket'
+    'person', 'door', 'fridge', 'microwave', 'bottle', 'tap', 'oven/stove',
+    'pan', 'trash_can', 'dish', 'cloth', 'knife/spoon/fork', 'food/snack',
+    'kettle', 'mug/cup', 'soap_liquid', 'pills', 'basket', 'towel',
+    'tooth_brush', 'tooth_paste', 'electric_keys', 'tv', 'tv_remote',
+    'container', 'shoes', 'tea_bag', 'laptop', 'cell_phone', 'cell',
+    'thermostat', 'book', 'dent_floss', 'vacuum', 'pitcher', 'detergent',
+    'washer/dryer', 'bed', 'large_container', 'monitor', 'keyboard', 'shoe',
+    'blanket', 'comb', 'perfume', 'milk/juice', 'mop'
 ]

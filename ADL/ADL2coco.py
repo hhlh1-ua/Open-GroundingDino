@@ -7,15 +7,14 @@ ORIGINAL_WIDTH = 1280
 ### EN EL SERVIDOR TIENEN LAS IMÁGENES CON LA MITAD DE TAMAÑO QUE LO QUE PONE EN EL PAPER
 HEIGTH = 480
 WIDTH = 640
-
+category_names = {}  # Diccionario para asignar ID a categorías
+categories=[]
 
 
 def create_label_map_extended(test, categories):
 
-    if test:
-        filename = "label_map_extended_test.json"
-    else:
-        filename = "label_map_extended_train.json"
+    filename = "label_map_ADL.json"
+
     path = os.path.join('..','config', filename)
 
     inverted = {value: key for key, value in categories.items()}
@@ -50,15 +49,54 @@ def update_coco2ovdgADL(categories):
         file.write(content)
 
 
+def updat_cfg(file,categories):
+    sorted_categories = sorted(categories.items(), key=lambda x: x[1])
+    label_list = [cat_name for cat_name, cat_id in sorted_categories]
+    
+    new_label_list_str = json.dumps(label_list)
+    
+
+    with open(file, 'r') as f:
+        content = f.read()
+
+    pattern = r'(label_list\s*=\s*)\[[^\]]*\]'
+    
+
+    new_content = re.sub(pattern, r'\1' + new_label_list_str, content, flags=re.DOTALL)
+    
+    with open(file, 'w') as f:
+        f.write(new_content)
+
+
+def getCategories():
+    global category_names
+    global categories
+    category_id_counter = 0
+    for i in range(1, 21):
+        filename = f'object_annot_P_0{i}.txt' if i < 10 else f'object_annot_P_{i}.txt'
+        filedir = os.path.join('annotations', 'object_annotation', filename)
+        with open(filedir, "r") as file:
+            for line in file:
+                line_vals = line.split()
+                category_name = line_vals[-1]  # Última palabra de la línea (categoría)
+                                # Verificar si la categoría ya existe
+                if category_name not in category_names:
+                    category_names[category_name] = category_id_counter
+                    categories.append({
+                        "id": category_id_counter,
+                        "name": category_name,
+                        "supercategory": "none"
+                    })
+                    category_id_counter += 1
+
 def createCOCO(outfile,start_range, fin_range):
-    categories = []  # Lista de categorías con IDs
     images = []  # Lista de imágenes con IDs
     annotations = []  # Lista de anotaciones
-    category_names = {}  # Diccionario para asignar ID a categorías
+    
     images_dict = {}  # Diccionario para asignar ID a imágenes
 
     image_id_counter = 0
-    category_id_counter = 0
+    
     annotation_id_counter = 1
     errores=[]
     
@@ -93,15 +131,7 @@ def createCOCO(outfile,start_range, fin_range):
                 image_name = line_vals[5][2:]  # Nombre de la imagen
                 image_name=os.path.join(prefix,image_name+'.jpg')
                 if image_name in images_dict:
-                    # Verificar si la categoría ya existe
-                    if category_name not in category_names:
-                        category_names[category_name] = category_id_counter
-                        categories.append({
-                            "id": category_id_counter,
-                            "name": category_name,
-                            "supercategory": "none"
-                        })
-                        category_id_counter += 1
+
 
                     # Coordenadas de la caja delimitadora (bbox)
                     x1 = int(line_vals[1])
@@ -140,34 +170,21 @@ def createCOCO(outfile,start_range, fin_range):
     outdir= os.path.join('annotations','coco_format',outfile)
     with open(outdir, 'w') as out_file:
         json.dump(coco, out_file, indent=4)
-    return category_names
 
 
-def main(args):
-    if(args.test):
-        categories=createCOCO(outfile='annotations_test.json',start_range=11,fin_range=17)
-        #create_label_map_extended(test=True,categories=categories)
-    if(args.validation):
-        createCOCO(outfile='annotations_val.json',start_range=17,fin_range=21)
-    if(args.train):
-       categories=createCOCO(outfile='annotations_train.json',start_range=1,fin_range=11)
-       update_coco2ovdgADL(categories)
-       create_label_map_extended(test=False,categories=categories)
-    if(args.all):
-        categories=createCOCO(outfile='annotations_train.json',start_range=1,fin_range=11)
-        update_coco2ovdgADL(categories)
-        create_label_map_extended(test=False,categories=categories)
-        categories=createCOCO(outfile='annotations_test.json',start_range=11,fin_range=17)
-        create_label_map_extended(test=True,categories=categories)
-        createCOCO(outfile='annotations_val.json',start_range=17,fin_range=21)
+def main():
+    getCategories()
+    createCOCO(outfile='annotations_train.json',start_range=1,fin_range=11)
+    update_coco2ovdgADL(category_names)
+    create_label_map_extended(test=False,categories=category_names)
+    createCOCO(outfile='annotations_test.json',start_range=11,fin_range=17)
+    create_label_map_extended(test=True,categories=category_names)
+    createCOCO(outfile='annotations_val.json',start_range=17,fin_range=21)
+    file=os.path.join('..','config','cfg_ADL.py')
+    updat_cfg(file,category_names)
 
 
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Decide what type of annotations create')
-    parser.add_argument('-tst', '--test', help='Use to create test annotations', action='store_true')
-    parser.add_argument('-trn', '--train', help='Use to create train annotations', action='store_true')
-    parser.add_argument('-v', '--validation', help='Use to create validation annotations', action='store_true')
-    parser.add_argument('-a', '--all', help='Use to create all annotations', action='store_true')
-    main(parser.parse_args())
+    main()

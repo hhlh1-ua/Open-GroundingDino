@@ -1,5 +1,5 @@
 {
-  "config_file": "/workspace/GroundingDINO/Open-GroundingDino/config/cfg_ADL_test.py",
+  "config_file": "/workspace/GroundingDINO/Open-GroundingDino/config/cfg_ADL.py",
   "options": {
     "text_encoder_type": "/workspace/GroundingDINO/modelos/BERT"
   },
