@@ -174,12 +174,12 @@ def createCOCO(outfile,start_range, fin_range):
 
 def main():
     getCategories()
-    createCOCO(outfile='annotations_train.json',start_range=1,fin_range=11)
+    createCOCO(outfile='annotations_train.json',start_range=1,fin_range=5)
     update_coco2ovdgADL(category_names)
     create_label_map_extended(test=False,categories=category_names)
-    createCOCO(outfile='annotations_test.json',start_range=11,fin_range=17)
+    createCOCO(outfile='annotations_test.json',start_range=7,fin_range=21)
     create_label_map_extended(test=True,categories=category_names)
-    createCOCO(outfile='annotations_val.json',start_range=17,fin_range=21)
+    createCOCO(outfile='annotations_val.json',start_range=5,fin_range=7)
     file=os.path.join('..','config','cfg_ADL.py')
     updat_cfg(file,category_names)
 
