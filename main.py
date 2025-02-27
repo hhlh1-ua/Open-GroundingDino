@@ -22,6 +22,8 @@ from datasets import build_dataset, get_coco_api_from_dataset
 from engine import evaluate, train_one_epoch
 
 from groundingdino.util.utils import clean_state_dict
+import wandb
+
 
 
 def get_args_parser():
@@ -90,6 +92,8 @@ def main(args):
     print("Loading config file from {}".format(args.config_file))
     time.sleep(args.rank * 0.02)
     cfg = SLConfig.fromfile(args.config_file)
+
+    print(cfg)
     if args.options is not None:
         cfg.merge_from_dict(args.options)
     if args.rank == 0:
@@ -145,6 +149,13 @@ def main(args):
     wo_class_error = False
     model.to(device)
     logger.debug("build model, done.")
+    wandb.init(
+        # set the wandb project where this run will be logged
+        project="FineTunning Grounding Dino",
+
+        # track hyperparameters and run metadata
+        config=cfg_dict  
+    )
 
 
     model_without_ddp = model
@@ -248,7 +259,6 @@ def main(args):
                     ignorelist.append(keyname)
                     return False
             return True
-
         logger.info("Ignore keys: {}".format(json.dumps(ignorelist, indent=2)))
         _tmp_st = OrderedDict({k:v for k, v in utils.clean_state_dict(checkpoint).items() if check_keep(k, _ignorekeywordlist)})
 
@@ -326,6 +336,28 @@ def main(args):
             **{f'train_{k}': v for k, v in train_stats.items()},
             **{f'test_{k}': v for k, v in test_stats.items()},
         }
+        ## Añadido por mí
+        train_loss = train_stats['loss']
+        evaluacion=test_stats['coco_eval_bbox']
+        ap50_95   = evaluacion[0]  # AP @ IoU=0.50:0.95
+        ap50      = evaluacion[1]  # AP @ IoU=0.50
+        ap75      = evaluacion[2]  # AP @ IoU=0.75
+        ap_small  = evaluacion[3]  # AP en objetos pequeños
+        ap_medium = evaluacion[4]  # AP en objetos medianos
+        ap_large  = evaluacion[5]  # AP en objetos grandes
+        stats={
+            "epoch": epoch,
+            "train_loss": train_loss,
+            "AP_50_95": ap50_95,
+            "AP_50": ap50,
+            "AP_75": ap75,
+            "AP_small_50_95": ap_small,
+            "AP_medium_50_95": ap_medium,
+            "AP_large_50_95": ap_large
+        }
+        wandb.log(stats)
+        ########
+
 
 
         try:
