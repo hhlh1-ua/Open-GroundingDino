@@ -151,10 +151,12 @@ def main(args):
     logger.debug("build model, done.")
     wandb.init(
         # set the wandb project where this run will be logged
-        project="FineTunning Grounding Dino",
+        project="GroundingDino con nueva Dist ADL",
 
         # track hyperparameters and run metadata
-        config=cfg_dict  
+        config=cfg_dict  ,
+        resume="allow",  # Permite reanudar un run existente
+        # id="ajoaa17h"  # Reemplaza con el identificador del run ya creado
     )
 
 
@@ -176,6 +178,19 @@ def main(args):
                 if keyword in name:
                     parameter.requires_grad_(False)
                     break
+
+
+    # freeze_keywords = ["linear1", "linear2", "catext_norm", "ca_text"]
+    # ## Añadido por mí                
+    # for name, param in model.named_parameters():
+    #     if any(keyword in name for keyword in freeze_keywords):
+    #         param.requires_grad = True  # Descongelado
+    # To freeze decoder except cross text-attention Añadido por mí
+    for name, param in model.named_parameters():
+        # Si el parámetro pertenece al decoder y NO es parte de ca_text ni catext_norm, lo congelamos.
+        if 'transformer.decoder' in name and 'ca_text' not in name and 'catext_norm' not in name:
+            param.requires_grad = False
+
     logger.info("params after freezing:\n"+json.dumps({n: p.numel() for n, p in model.named_parameters() if p.requires_grad}, indent=2))
 
     optimizer = torch.optim.AdamW(param_dicts, lr=args.lr,

@@ -118,4 +118,4 @@ use_coco_eval = False # Cambiando de True a False
 dn_scalar = 100
 
 
-label_list = ["person", "door", "fridge", "microwave", "bottle", "tap", "oven/stove", "pan", "trash_can", "dish", "cloth", "knife/spoon/fork", "food/snack", "kettle", "mug/cup", "soap_liquid", "pills", "basket", "towel", "tooth_brush", "tooth_paste", "electric_keys", "tv", "tv_remote", "container", "shoes", "tea_bag", "laptop", "cell_phone", "cell", "thermostat", "book", "dent_floss", "vacuum", "pitcher", "detergent", "washer/dryer", "bed", "large_container", "monitor", "keyboard", "shoe", "blanket", "comb", "perfume", "milk/juice", "mop"]
+label_list = ["bed", "monitor", "keyboard", "shoe", "blanket", "towel", "door", "electric_keys", "soap_liquid", "container", "tap", "person", "tooth_paste", "dent_floss", "bottle", "trash_can", "tooth_brush", "laptop", "dish", "knife/spoon/fork", "vacuum", "kettle", "pan", "mug/cup", "fridge", "oven/stove", "food/snack", "tea_bag", "thermostat", "washer/dryer", "detergent", "cloth", "basket", "cell", "book", "comb", "tv", "pitcher", "microwave", "pills", "shoes", "tv_remote", "cell_phone", "large_container", "milk/juice", "perfume", "mop"]

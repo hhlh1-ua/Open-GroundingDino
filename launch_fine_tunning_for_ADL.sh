@@ -1,7 +1,7 @@
 GPU_NUM=1
 CFG="/workspace/GroundingDINO/Open-GroundingDino/config/cfg_ADL.py"
 DATASETS="/workspace/GroundingDINO/Open-GroundingDino/config/dataset_train_ADL.json"
-OUTPUT_DIR="/workspace/GroundingDINO/modelos/fine_tunning/1_8M_params/FineTunning5"
+OUTPUT_DIR="/workspace/GroundingDINO/modelos/new_dist_fine_tunning/1_8M_params/GROfficialStrategyBatch8"
 NNODES=${NNODES:-1}
 NODE_RANK=${NODE_RANK:-0}
 PORT=${PORT:-29500}
